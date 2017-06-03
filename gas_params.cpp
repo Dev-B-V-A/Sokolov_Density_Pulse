@@ -38,7 +38,7 @@ void gas_params::set_mult_2 ()
 
 void gas_params::update_steps ()
 {
-    h_x = x / mx;
-    h_y = y / my;
-    tau = t / n;
+    h_x = x / (mx - 1);
+    h_y = y / (my - 1);
+    tau = t / (n - 1);
 }
