@@ -13,10 +13,14 @@ SOURCES += main.cpp \
     gas_params.cpp \
     solver.cpp \
     scheme.cpp \
-    norma.cpp
+    norma.cpp \
+    report.cpp \
+    init.cpp
 
 HEADERS += \
     gas_params.h \
     solver.h \
     scheme.h \
-    norma.h
+    norma.h \
+    report.h \
+    init.h
