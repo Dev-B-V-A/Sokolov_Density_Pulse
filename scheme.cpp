@@ -10,8 +10,8 @@ void scheme_Sokolov_Density_Pulse (gas_params *params)
     int time_steps = params->n;
     int current_layer_t = 0;
     double *density;
-    double *pulse;
     double *old_density;
+    double *pulse;
     double *old_pulse;
 
     density = (double *)malloc (half_nodes_count * sizeof (double));
@@ -19,8 +19,8 @@ void scheme_Sokolov_Density_Pulse (gas_params *params)
     pulse = (double *)malloc (2 * nodes_count * sizeof (double));
     old_pulse = (double *)malloc (2 * nodes_count * sizeof (double));
 
-    init_H (density, params);
-    init_V (pulse, params);
+    init_H (density, params, half_nodes_count);
+    init_V (pulse, params, nodes_count * 2);
 
     for (current_layer_t = 0; current_layer_t < time_steps; current_layer_t++)
     {
