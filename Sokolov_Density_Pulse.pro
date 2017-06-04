@@ -9,6 +9,10 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
+LIBS += -L. -lxc -llaspack
+
+INCLUDEPATH += ./laspack/laspack
+
 SOURCES += main.cpp \
     gas_params.cpp \
     solver.cpp \
