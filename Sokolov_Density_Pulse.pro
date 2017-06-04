@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     scheme.cpp \
     norma.cpp \
     report.cpp \
-    init.cpp
+    init.cpp \
+    function.cpp
 
 HEADERS += \
     gas_params.h \
@@ -23,4 +24,5 @@ HEADERS += \
     scheme.h \
     norma.h \
     report.h \
-    init.h
+    init.h \
+    function.h
