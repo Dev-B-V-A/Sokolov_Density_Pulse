@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     norma.cpp \
     report.cpp \
     init.cpp \
-    function.cpp
+    function.cpp \
+    fill_in.cpp
 
 HEADERS += \
     gas_params.h \
@@ -25,4 +26,5 @@ HEADERS += \
     norma.h \
     report.h \
     init.h \
-    function.h
+    function.h \
+    fill_in.h

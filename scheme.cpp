@@ -3,13 +3,14 @@
 #include "init.h"
 #include "stdlib.h"
 #include "report.h"
+#include "stdio.h"
 
 void scheme_Sokolov_Density_Pulse (gas_params *params)
 {
     const char *result_file = "report_scheme.tex";
 
     int nodes_count = params->mx * params->my;
-    int half_nodes_count = (params->mx + 1) * (params->my + 1);
+    int half_nodes_count = (params->mx - 1) * (params->my - 1);
     int time_steps = params->n;
     int current_layer_t = 0;
     double *density;

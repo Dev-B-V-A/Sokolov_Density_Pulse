@@ -10,28 +10,11 @@ void init_density (double *d, gas_params *params, int half_nodes_count)
     double hy = params->h_y;
     double t = 0.0;
 
-    // y == 0
-    for (i = 0; i < mx + 1; i++)
+    for (i = 0; i < half_nodes_count; i++)
     {
-        d[i] = 0.;
+        d[i] = density (t, i % (mx - 1) * hx + hx / 2, i / (mx - 1.) * hy + hy / 2);
     }
-
-    // 0 < y < maxY
-    for (; i < half_nodes_count - mx - 1; i++)
-    {
-        if (((i + 1) % (mx + 1) == 0) || (i % (mx + 1) == 0))
-        {
-            d[i] = 0.;
-            continue;
-        }
-        d[i] = density (t, i % (mx + 1) * hx - hx / 2, i / (mx + 1.) * hy - hy / 2);
-    }
-    // y == maxY
-    for (; i < half_nodes_count; i++)
-    {
-        d[i] = 0.;
-    }
-    print_array (d, my + 1, mx + 1);
+    print_array (d, my - 1, mx - 1);
 }
 
 void init_pulse (double *pulse, gas_params *params, int nodes_count)
