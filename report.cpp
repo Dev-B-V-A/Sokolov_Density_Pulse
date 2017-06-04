@@ -1,4 +1,5 @@
 #include "report.h"
+#include "stdio.h"
 
 void record_report (const char *file)
 {
