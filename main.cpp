@@ -22,7 +22,7 @@ int main ()
 
         time = (clock() - time) / CLOCKS_PER_SEC;
         printf (">     Iter = %d     Time = %.4f\n", it, time);
-        params.set_mutl_2 ();
+        params.set_mult_2 ();
     }
     return 0;
 }
