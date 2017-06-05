@@ -101,7 +101,7 @@ static int get_down (int current_node, int mx)
 }
 
 void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *density, int half_nodes_count,
-                                  double *pulse, int nodes_count, gas_params *params)
+                                  double *pulse, int nodes_count, gas_params *params, double t)
 {
     int current_node = 0;
     double tmp = 0;
@@ -130,7 +130,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
         curr_nz++;
         Q_SetEntry(a, current_node, curr_nz, get_up(current_node, mx), tmp);
 
-        V_SetCmp (b, current_node, density[current_node] / tau);
+        V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
         V_SetCmp (x, current_node, current_node % 2);
 
         current_node++;
@@ -158,7 +158,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
             curr_nz++;
             Q_SetEntry(a, current_node, curr_nz, get_left (current_node), tmp);
 
-            V_SetCmp (b, current_node, density[current_node] / tau);
+            V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
             V_SetCmp (x, current_node, current_node % 2);
         }
 
@@ -180,7 +180,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
         curr_nz++;
         Q_SetEntry(a, current_node, curr_nz, get_up(current_node, mx), tmp);
 
-        V_SetCmp (b, current_node, density[current_node] / tau);
+        V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
         V_SetCmp (x, current_node, current_node % 2);
 
         current_node++;
@@ -211,7 +211,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
                 curr_nz++;
                 Q_SetEntry(a, current_node, curr_nz, get_down (current_node, mx), tmp);
 
-                V_SetCmp (b, current_node, density[current_node] / tau);
+                V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
                 V_SetCmp (x, current_node, current_node % 2);
                 continue;
             }
@@ -237,7 +237,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
                 curr_nz++;
                 Q_SetEntry(a, current_node, curr_nz, get_left (current_node), tmp);
 
-                V_SetCmp (b, current_node, density[current_node] / tau);
+                V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
                 V_SetCmp (x, current_node, current_node % 2);
 
                 continue;
@@ -265,7 +265,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
             curr_nz++;
             Q_SetEntry(a, current_node, curr_nz, get_down (current_node, mx), tmp);
 
-            V_SetCmp (b, current_node, density[current_node] / tau);
+            V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
             V_SetCmp (x, current_node, current_node % 2);
         }
 
@@ -287,7 +287,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
         curr_nz++;
         Q_SetEntry(a, current_node, curr_nz, get_down (current_node, mx), tmp);
 
-        V_SetCmp (b, current_node, density[current_node] / tau);
+        V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
         V_SetCmp (x, current_node, current_node % 2);
 
         current_node++;
@@ -315,7 +315,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
             curr_nz++;
             Q_SetEntry(a, current_node, curr_nz, get_left (current_node), tmp);
 
-            V_SetCmp (b, current_node, density[current_node] / tau);
+            V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
             V_SetCmp (x, current_node, current_node % 2);
         }
 
@@ -337,7 +337,7 @@ void density_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *dens
         curr_nz++;
         Q_SetEntry(a, current_node, curr_nz, get_down (current_node, mx), tmp);
 
-        V_SetCmp (b, current_node, density[current_node] / tau);
+        V_SetCmp (b, current_node, density[current_node] / tau + f0 (t, current_node % (mx - 1) * hx, current_node / (mx - 1) * hy));
         V_SetCmp (x, current_node, current_node % 2);
 
         current_node++;
