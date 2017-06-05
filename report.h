@@ -2,5 +2,6 @@
 #define REPORT_H
 
 void record_report (const char *file);
+void record_file (const char *file);
 
 #endif // REPORT_H
