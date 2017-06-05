@@ -18,6 +18,29 @@ static void get_result (double *result, Vector *x, int n)
         result[i] = V_GetCmp(x, i);
 }
 
+static void zero (double *pulse, int nodes_count, int mx)
+{
+    int i = 0;
+    double *p1 = pulse;
+    double *p2 = pulse + nodes_count;
+
+    for (i = 0; i < mx; i++)
+    {
+        p1[i] = 0.0;
+        p2[i] = 0.0;
+    }
+    for (; i < nodes_count - mx; i += mx)
+    {
+        p1[i] = 0.0;        p2[i] = 0.0;
+        p1[i - 1] = 0.0;    p2[i - 1] = 0.0;
+    }
+    for (; i < nodes_count; i++)
+    {
+        p1[i] = 0.0;
+        p2[i] = 0.0;
+    }
+}
+
 void solve_density (double *density, double *old_density, int half_nodes_count, double *pulse, int nodes_count, gas_params *params, double t)
 {
     QMatrix a;
@@ -60,6 +83,7 @@ void solve_pulse (double *density, double *old_density, double *pulse, double *o
 
     memcpy (old_pulse, pulse, sizeof (double) * 2 * nodes_count);
     get_result (pulse, &x, nodes_count);
+    zero (pulse, nodes_count, params->mx);
 
     Q_Destr (&a);
     V_Destr (&x);

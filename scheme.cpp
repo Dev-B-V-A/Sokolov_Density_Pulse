@@ -44,7 +44,7 @@ void scheme_Sokolov_Density_Pulse (gas_params *params)
         solve_pulse (density, old_density, pulse, old_pulse, nodes_count, params, t);
     }
 
-    record_file (res_file, density, half_nodes_count, pulse, nodes_count);
+    record_file (res_file, density, half_nodes_count, pulse, nodes_count, mx);
     record_report (report_file);
 
     free (density);
