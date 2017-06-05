@@ -9,9 +9,9 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-LIBS += -L. -lxc -llaspack
+LIBS += -L./lib -lxc -llaspack
 
-INCLUDEPATH += ./laspack/laspack
+INCLUDEPATH += ./include \
 
 SOURCES += main.cpp \
     gas_params.cpp \
