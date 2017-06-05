@@ -1,8 +1,8 @@
 /****************************************************************************/
-/*                                precond.h                                 */
+/*                                 elcmp.h                                  */
 /****************************************************************************/
 /*                                                                          */
-/* PRECONDitioners for iterative solvers of systems of linear equations     */
+/* type of matrix ELements and vector CoMPonents                            */
 /*                                                                          */
 /* Copyright (C) 1992-1995 Tomas Skalicky. All rights reserved.             */
 /*                                                                          */
@@ -13,20 +13,28 @@
 /*                                                                          */
 /****************************************************************************/
 
-#ifndef PRECOND_H
-#define PRECOND_H
+#ifndef ELCMP_H
+#define ELCMP_H
 
-#include "lastypes.h"
-#include "vector.h"
-#include "qmatrix.h"
-#include "copyrght.h"
+#include <float.h>
+#include <math.h>
 
-typedef Vector *(*PrecondProcType)(QMatrix *, Vector *, Vector *, double);
+#include "laspack/copyrght.h"
 
-/* declaration of preconditioners */
+typedef double Real;
 
-Vector *JacobiPrecond(QMatrix *A, Vector *y, Vector *c, double Omega);
-Vector *SSORPrecond(QMatrix *A, Vector *y, Vector *c, double Omega);
-Vector *ILUPrecond(QMatrix *A, Vector *y, Vector *c, double Omega);
+#ifdef __BORLANDC__
+/* BC 2.0 does not handle IEEE arithmetic correctly */
+#define IsZero(a) (fabs(a) < 1.0e20 * DBL_MIN)
+#define IsOne(a)  (fabs(a - 1.0) < 10.0 * DBL_EPSILON)
+#else
+#define IsZero(a) (fabs(a) < 10.0 * DBL_MIN)
+#define IsOne(a)  (fabs(a - 1.0) < 10.0 * DBL_EPSILON)
+#endif /* __BORLANDC__ */
 
-#endif /* PRECOND_H */
+typedef struct {
+    size_t Pos;
+    Real Val;
+} ElType;
+
+#endif /* ELCMP_H */

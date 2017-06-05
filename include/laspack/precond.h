@@ -1,8 +1,8 @@
 /****************************************************************************/
-/*                                factor.h                                  */
+/*                                precond.h                                 */
 /****************************************************************************/
 /*                                                                          */
-/* incomplete FACTORization for the type qmatrix                            */
+/* PRECONDitioners for iterative solvers of systems of linear equations     */
 /*                                                                          */
 /* Copyright (C) 1992-1995 Tomas Skalicky. All rights reserved.             */
 /*                                                                          */
@@ -13,14 +13,20 @@
 /*                                                                          */
 /****************************************************************************/
 
-#ifndef FACTOR_H
-#define FACTOR_H
+#ifndef PRECOND_H
+#define PRECOND_H
 
-#include "vector.h"
-#include "qmatrix.h"
-#include "copyrght.h"
+#include "laspack/lastypes.h"
+#include "laspack/vector.h"
+#include "laspack/qmatrix.h"
+#include "laspack/copyrght.h"
 
-QMatrix *ILUFactor(QMatrix *Q);
+typedef Vector *(*PrecondProcType)(QMatrix *, Vector *, Vector *, double);
 
-#endif /* FACTOR_H */
+/* declaration of preconditioners */
 
+Vector *JacobiPrecond(QMatrix *A, Vector *y, Vector *c, double Omega);
+Vector *SSORPrecond(QMatrix *A, Vector *y, Vector *c, double Omega);
+Vector *ILUPrecond(QMatrix *A, Vector *y, Vector *c, double Omega);
+
+#endif /* PRECOND_H */

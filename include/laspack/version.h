@@ -1,8 +1,8 @@
 /****************************************************************************/
-/*                                lastypes.h                                 */
+/*                                version.h                                 */
 /****************************************************************************/
 /*                                                                          */
-/* basic LASpack TYPES                                                      */
+/* VERSION of the LASPack library                                           */
 /*                                                                          */
 /* Copyright (C) 1992-1995 Tomas Skalicky. All rights reserved.             */
 /*                                                                          */
@@ -13,29 +13,11 @@
 /*                                                                          */
 /****************************************************************************/
 
-#ifndef LASTYPES_H
-#define LASTYPES_H
+#ifndef LASPACK_VERSION_H
+#define LASPACK_VERSION_H
 
-#include "copyrght.h"
+#include "laspack/copyrght.h"
 
-#ifndef BOOLEAN
-#define BOOLEAN
+#define LASPACK_VERSION "1.12.2"
 
-typedef enum {
-    False = 0,
-    True  = 1
-} Boolean; /* boolean type */
-
-#endif /* BOOLEAN */
-
-typedef enum {
-    Rowws,
-    Clmws
-} ElOrderType;
-
-typedef enum {
-    Normal,
-    Tempor
-} InstanceType;
-
-#endif /* LASTYPES_H */
+#endif /* LASPACK_VERSION_H */

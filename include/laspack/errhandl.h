@@ -1,8 +1,8 @@
 /****************************************************************************/
-/*                                eigenval.h                                */
+/*                                errhandl.h                                */
 /****************************************************************************/
 /*                                                                          */
-/* estimation of extremal EIGENVALues                                       */
+/* ERRor HANDLing routines                                                  */
 /*                                                                          */
 /* Copyright (C) 1992-1995 Tomas Skalicky. All rights reserved.             */
 /*                                                                          */
@@ -13,18 +13,34 @@
 /*                                                                          */
 /****************************************************************************/
 
-#ifndef EIGENVAL_H
-#define EIGENVAL_H
+#ifndef ERRHANDL_H
+#define ERRHANDL_H
 
-#include "vector.h"
-#include "qmatrix.h"
-#include "precond.h"
-#include "copyrght.h"
+#include <stdio.h>
 
-/* estimation of extremal eigenvalues */
+#include "laspack/copyrght.h"
 
-void SetEigenvalAccuracy(double Eps);
-double GetMinEigenval(QMatrix *Q, PrecondProcType PrecondProc, double OmegaPrecond);
-double GetMaxEigenval(QMatrix *Q, PrecondProcType PrecondProc, double OmegaPrecond);
+typedef enum {
+    LASOK,
+    LASMemAllocErr,
+    LASLValErr,
+    LASDimErr,
+    LASRangeErr,
+    LASSymStorErr,
+    LASMatrCombErr,
+    LASMulInvErr,
+    LASElNotSortedErr,
+    LASZeroInDiagErr,
+    LASZeroPivotErr,
+    LASILUStructErr,
+    LASBreakdownErr,
+    LASUserBreak
+} LASErrIdType;
 
-#endif /* EIGENVAL_H */
+void LASError(LASErrIdType ErrId, char *ProcName, char *Object1Name,
+              char *Object2Name, char *Object3Name);
+void LASBreak(void);
+LASErrIdType LASResult(void);
+void WriteLASErrDescr(FILE *File);
+
+#endif /* ERRHANDL_H */

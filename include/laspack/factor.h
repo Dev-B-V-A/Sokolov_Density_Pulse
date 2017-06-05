@@ -1,8 +1,8 @@
 /****************************************************************************/
-/*                                errhandl.h                                */
+/*                                factor.h                                  */
 /****************************************************************************/
 /*                                                                          */
-/* ERRor HANDLing routines                                                  */
+/* incomplete FACTORization for the type qmatrix                            */
 /*                                                                          */
 /* Copyright (C) 1992-1995 Tomas Skalicky. All rights reserved.             */
 /*                                                                          */
@@ -13,34 +13,14 @@
 /*                                                                          */
 /****************************************************************************/
 
-#ifndef ERRHANDL_H
-#define ERRHANDL_H
+#ifndef FACTOR_H
+#define FACTOR_H
 
-#include <stdio.h>
+#include "laspack/vector.h"
+#include "laspack/qmatrix.h"
+#include "laspack/copyrght.h"
 
-#include "copyrght.h"
+QMatrix *ILUFactor(QMatrix *Q);
 
-typedef enum {
-    LASOK,
-    LASMemAllocErr,
-    LASLValErr,
-    LASDimErr,
-    LASRangeErr,
-    LASSymStorErr,
-    LASMatrCombErr,
-    LASMulInvErr,
-    LASElNotSortedErr,
-    LASZeroInDiagErr,
-    LASZeroPivotErr,
-    LASILUStructErr,
-    LASBreakdownErr,
-    LASUserBreak
-} LASErrIdType;
+#endif /* FACTOR_H */
 
-void LASError(LASErrIdType ErrId, char *ProcName, char *Object1Name,
-              char *Object2Name, char *Object3Name);
-void LASBreak(void);
-LASErrIdType LASResult(void);
-void WriteLASErrDescr(FILE *File);
-
-#endif /* ERRHANDL_H */
