@@ -30,9 +30,9 @@ void scheme_Sokolov_Density_Pulse (gas_params *params)
     for (current_layer_t = 1; current_layer_t < time_steps; current_layer_t++)
     {
         printf (">      >       TimeStep = %d\n", current_layer_t);
-        solve_density (density, old_density, half_nodes_count, pulse, old_pulse, nodes_count, params);
+        solve_density (density, old_density, half_nodes_count, pulse, nodes_count, params);
 
-        solve_pulse (density, old_density, half_nodes_count, pulse, old_pulse, nodes_count, params);
+        solve_pulse (density, old_density, pulse, old_pulse, nodes_count, params, current_layer_t);
 
     }
 

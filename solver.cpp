@@ -2,10 +2,10 @@
 
 #include "stdlib.h"
 #include "memory.h"
-#include "qmatrix.h"
-#include "vector.h"
-#include "rtc.h"
-#include "itersolv.h"
+#include "laspack/qmatrix.h"
+#include "laspack/vector.h"
+#include "laspack/rtc.h"
+#include "laspack/itersolv.h"
 #include "fill_in.h"
 
 #define MAX_ITER 2000
@@ -43,7 +43,7 @@ void solve_density (double *density, double *old_density, int half_nodes_count, 
     return;
 }
 
-void solve_pulse (double *density, double *old_density, int half_nodes_count, double *pulse, double *old_pulse, int nodes_count, gas_params *params)
+void solve_pulse (double *density, double *old_density, double *pulse, double *old_pulse, int nodes_count, gas_params *params, int curr_t)
 {
     QMatrix a;
     Vector x, b;
@@ -54,7 +54,7 @@ void solve_pulse (double *density, double *old_density, int half_nodes_count, do
 
     SetRTCAccuracy(EPS);
 
-    pulse_fill_matrix_and_rhs (&a, &b, &x, density, old_density, half_nodes_count, pulse, nodes_count, params);
+    pulse_fill_matrix_and_rhs (&a, &b, &x, density, old_density, pulse, nodes_count, params, curr_t * params->tau);
 
     CGSIter(&a, &x, &b, MAX_ITER, SSORPrecond, 1);
 
