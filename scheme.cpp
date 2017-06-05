@@ -9,7 +9,8 @@
 
 void scheme_Sokolov_Density_Pulse (gas_params *params)
 {
-    const char *result_file = "report_scheme.tex";
+    const char *report_file = "report_scheme.tex";
+    const char *res_file = "res.dat";
 
     int nodes_count = params->mx * params->my;
     int half_nodes_count = (params->mx - 1) * (params->my - 1);
@@ -41,18 +42,10 @@ void scheme_Sokolov_Density_Pulse (gas_params *params)
         solve_density (density, old_density, half_nodes_count, pulse, nodes_count, params);
 
         solve_pulse (density, old_density, pulse, old_pulse, nodes_count, params, current_layer_t);
-
-        printf ("Time_LAYER:    # %d\n", current_layer_t);
-        printf ("Density          L2_norma = %.4f       C_norma = %.4f\n", l2_norma (density, density_, half_nodes_count, mx, hx, hy, t, 1),
-                                                                           c_norma (density, density_, half_nodes_count, mx, t, hx, hy, 1));
-        printf ("Pulse_1           L2_norma = %.4f       C_norma = %.4f\n", l2_norma (pulse, pulse_1, nodes_count, mx, hx, hy, t),
-                                                                            c_norma (pulse, pulse_1, nodes_count, mx, t, hx, hy));
-        printf ("Pulse_2           L2_norma = %.4f       C_norma = %.4f\n", l2_norma (pulse + nodes_count, pulse_2, nodes_count, mx, hx, hy, t),
-                                                                            c_norma (pulse + nodes_count, pulse_2, nodes_count, mx, t, hx, hy));
-
     }
 
-    record_report (result_file);
+    record_file (res_file);
+    record_report (report_file);
 
     free (density);
     free (pulse);
