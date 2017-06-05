@@ -18,7 +18,7 @@ static void get_result (double *result, Vector *x, int n)
         result[i] = V_GetCmp(x, i);
 }
 
-void solve_density (double *density, double *old_density, int half_nodes_count, double *pulse, int nodes_count, gas_params *params)
+void solve_density (double *density, double *old_density, int half_nodes_count, double *pulse, int nodes_count, gas_params *params, double t)
 {
     QMatrix a;
     Vector x, b;
@@ -29,21 +29,21 @@ void solve_density (double *density, double *old_density, int half_nodes_count, 
 
     SetRTCAccuracy(EPS);
 
-    density_fill_matrix_and_rhs (&a, &b, &x, density, half_nodes_count, pulse, nodes_count, params);
+    density_fill_matrix_and_rhs (&a, &b, &x, density, half_nodes_count, pulse, nodes_count, params, t);
 
     CGSIter(&a, &x, &b, MAX_ITER, SSORPrecond, 1);
 
+    memcpy (old_density, density, sizeof (double) * half_nodes_count);
     get_result (density, &x, half_nodes_count);
 
     Q_Destr (&a);
     V_Destr (&x);
     V_Destr (&b);
 
-    memcpy (old_density, density, sizeof (double) * half_nodes_count);
     return;
 }
 
-void solve_pulse (double *density, double *old_density, double *pulse, double *old_pulse, int nodes_count, gas_params *params, int curr_t)
+void solve_pulse (double *density, double *old_density, double *pulse, double *old_pulse, int nodes_count, gas_params *params, double t)
 {
     QMatrix a;
     Vector x, b;
@@ -54,16 +54,16 @@ void solve_pulse (double *density, double *old_density, double *pulse, double *o
 
     SetRTCAccuracy(EPS);
 
-    pulse_fill_matrix_and_rhs (&a, &b, &x, density, old_density, pulse, nodes_count, params, curr_t * params->tau);
+    pulse_fill_matrix_and_rhs (&a, &b, &x, density, old_density, pulse, nodes_count, params, t);
 
     CGSIter(&a, &x, &b, MAX_ITER, SSORPrecond, 1);
 
+    memcpy (old_pulse, pulse, sizeof (double) * 2 * nodes_count);
     get_result (pulse, &x, nodes_count);
 
     Q_Destr (&a);
     V_Destr (&x);
     V_Destr (&b);
 
-    memcpy (old_pulse, pulse, sizeof (double) * 2 * nodes_count);
     return;
 }
