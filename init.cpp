@@ -12,7 +12,7 @@ void init_density (double *d, gas_params *params, int half_nodes_count)
 
     for (i = 0; i < half_nodes_count; i++)
     {
-        d[i] = density (t, i % (mx - 1) * hx + hx / 2, i / (mx - 1.) * hy + hy / 2);
+        d[i] = density_ (t, i % (mx - 1) * hx + hx / 2, i / (mx - 1.) * hy + hy / 2);
     }
     print_array (d, my - 1, mx - 1);
 }

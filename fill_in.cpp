@@ -578,7 +578,7 @@ static double bp20 (int current_node, double *p2, double *density, int mx, int m
 
 }
 
-static double bp1l (int current_node, double *p2, double *density, int mx, int my, double hx, double mu)
+static double bp1l (int current_node, double *p2, double *density, int mx, double hx)
 {
     return -1./4/hx *
              ((fabs (get_p_left (p2, current_node, mx)) + get_p_left (p2, current_node, mx)) *
@@ -587,7 +587,7 @@ static double bp1l (int current_node, double *p2, double *density, int mx, int m
               get_h1_left (density, current_node, mx));
 }
 
-static double bp10 (int current_node, double *p2, double *density, int mx, int my, double hx)
+static double bp10 (int current_node, double *p2, double *density, int mx, double hx)
 {
     return 1./4/hx *
             ((fabs (get_p_left (p2, current_node, mx)) - get_p_left (p2, current_node, mx) + fabs (p2[current_node]) + p2[current_node]) *
@@ -596,7 +596,7 @@ static double bp10 (int current_node, double *p2, double *density, int mx, int m
              h1_tilde (density, current_node, mx));
 }
 
-static double bp1r (int current_node, double *p2, double *density, int mx, int my, double hx, double mu)
+static double bp1r (int current_node, double *p2, double *density, int mx, double hx)
 {
     return -1./4/hx *
             ((fabs (p2[current_node]) - p2[current_node]) *
@@ -605,7 +605,7 @@ static double bp1r (int current_node, double *p2, double *density, int mx, int m
              get_h1_right(density, current_node, mx));
 }
 
-static double bp2d (int current_node, double *p2, double *density, int mx, int my, double hy, double mu)
+static double bp2d (int current_node, double *p2, double *density, int mx, double hy, double mu)
 {
     return -1./4/hy *
             ((fabs (get_p_down (p2, current_node, mx)) + get_p_down(p2, current_node, mx)) *
@@ -655,8 +655,8 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
     int current_node = 0;
     int nz = 8;
     int nz_angle = 5;
-    int nz_side_vert1, nz_side_hor2 = 6;
-    int nz_side_hor1, nz_side_vert2 = 7;
+    int nz_side_vert1 = 6, nz_side_hor2 = 6;
+    int nz_side_hor1 = 7, nz_side_vert2 = 7;
     int curr_nz= 0;
     double tmp = 0;
     double mu = params->mu;
@@ -710,11 +710,11 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_right (current_node), tmp);
 
-            tmp = bp10(current_node, p2, density, mx, my, hx);
+            tmp = bp10(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-            tmp = bp1r(current_node, p2, density, mx, my, hx, mu);
+            tmp = bp1r(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
@@ -778,15 +778,15 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_left (current_node), tmp);
 
-                tmp = bp10(current_node, p2, density, mx, my, hx);
+                tmp = bp10(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-                tmp = bp1r(current_node, p2, density, mx, my, hx, mu);
+                tmp = bp1r(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
-                tmp = bp1l(current_node, p2, density, mx, my, hx, mu);
+                tmp = bp1l(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, get_left (current_node), tmp);
 
@@ -840,11 +840,11 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_left (current_node), tmp);
 
-            tmp = bp10(current_node, p2, density, mx, my, hx);
+            tmp = bp10(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-            tmp = bp1l(current_node, p2, density, mx, my, hx, mu);
+            tmp = bp1l(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, get_left (current_node), tmp);
 
@@ -911,15 +911,15 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_right (current_node), tmp);
 
-                    tmp = bp2d (current_node, p2, density, mx, my, hy, mu);
+                    tmp = bp2d (current_node, p2, density, mx, hy, mu);
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_down (current_node, mx), tmp);
 
-                    tmp = bp10(current_node, p2, density, mx, my, hx);
+                    tmp = bp10(current_node, p2, density, mx, hx);
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-                    tmp = bp1r(current_node, p2, density, mx, my, hx, mu);
+                    tmp = bp1r(current_node, p2, density, mx, hx);
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
@@ -982,15 +982,15 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_right (current_node), tmp);
 
-                    tmp = bp2d (current_node, p2, density, mx, my, hy, mu);
+                    tmp = bp2d (current_node, p2, density, mx, hy, mu);
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_down (current_node, mx), tmp);
 
-                    tmp = bp10(current_node, p2, density, mx, my, hx);
+                    tmp = bp10(current_node, p2, density, mx, hx);
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-                    tmp = bp1l(current_node, p2, density, mx, my, hx, mu);
+                    tmp = bp1l(current_node, p2, density, mx, hx);
                     curr_nz++;
                     Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
@@ -1057,19 +1057,19 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_left (current_node), tmp);
 
-                tmp = bp2d (current_node, p2, density, mx, my, hy, mu);
+                tmp = bp2d (current_node, p2, density, mx, hy, mu);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_down (current_node, mx), tmp);
 
-                tmp = bp10(current_node, p2, density, mx, my, hx);
+                tmp = bp10(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-                tmp = bp1r(current_node, p2, density, mx, my, hx, mu);
+                tmp = bp1r(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
-                tmp = bp1l(current_node, p2, density, mx, my, hx, mu);
+                tmp = bp1l(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, get_left (current_node), tmp);
 
@@ -1119,15 +1119,15 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_right (current_node), tmp);
 
-            tmp = bp2d (current_node, p2, density, mx, my, hy, mu);
+            tmp = bp2d (current_node, p2, density, mx, hy, mu);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_down (current_node, mx), tmp);
 
-            tmp = bp10(current_node, p2, density, mx, my, hx);
+            tmp = bp10(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-            tmp = bp1r(current_node, p2, density, mx, my, hx, mu);
+            tmp = bp1r(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
@@ -1186,19 +1186,19 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_left (current_node), tmp);
 
-                tmp = bp2d (current_node, p2, density, mx, my, hy, mu);
+                tmp = bp2d (current_node, p2, density, mx, hy, mu);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_down (current_node, mx), tmp);
 
-                tmp = bp10(current_node, p2, density, mx, my, hx);
+                tmp = bp10(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-                tmp = bp1r(current_node, p2, density, mx, my, hx, mu);
+                tmp = bp1r(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, get_right (current_node), tmp);
 
-                tmp = bp1l(current_node, p2, density, mx, my, hx, mu);
+                tmp = bp1l(current_node, p2, density, mx, hx);
                 curr_nz++;
                 Q_SetEntry(a, nodes_count + current_node, curr_nz, get_left (current_node), tmp);
 
@@ -1247,15 +1247,15 @@ void pulse_fill_matrix_and_rhs (QMatrix *a, Vector *b, Vector *x, double *densit
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_left (current_node), tmp);
 
-            tmp = bp2d (current_node, p2, density, mx, my, hy, mu);
+            tmp = bp2d (current_node, p2, density, mx, hy, mu);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, nodes_count + get_down (current_node, mx), tmp);
 
-            tmp = bp10(current_node, p2, density, mx, my, hx);
+            tmp = bp10(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, current_node, tmp);
 
-            tmp = bp1l(current_node, p2, density, mx, my, hx, mu);
+            tmp = bp1l(current_node, p2, density, mx, hx);
             curr_nz++;
             Q_SetEntry(a, nodes_count + current_node, curr_nz, get_left (current_node), tmp);
 

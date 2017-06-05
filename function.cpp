@@ -13,7 +13,7 @@ double pulse_2 (double t, double x, double y)
     return sin (2 * M_PI * x) * sin (2 * M_PI * y) * exp (-t);
 }
 
-double density (double t, double x, double y)
+double density_ (double t, double x, double y)
 {
     return (cos (2 * M_PI * x) + 3./2) * (sin (2 * M_PI * y) + 3./2) * exp (t);
 }
