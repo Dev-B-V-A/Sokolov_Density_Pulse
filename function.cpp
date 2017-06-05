@@ -18,6 +18,15 @@ double density_ (double t, double x, double y)
     return (cos (2 * M_PI * x) + 3./2) * (sin (2 * M_PI * y) + 3./2) * exp (t);
 }
 
+double f0(double t, double x, double y)
+{
+    return 1./4 *
+            (exp (t) * (3 + 2 * cos (2 * M_PI * x)) * (2 + 2 * sin (2 * M_PI * y)) +
+             2 * exp (2 * t) * M_PI * (3 * cos (2 * M_PI * x) + 2 * cos (4 * M_PI * x)) *
+             (3 + 2 * sin (2 * M_PI * y)) * sin (2 * M_PI * y) +
+             2 * M_PI * (3 + 2 * cos (2 * M_PI * x)) * (3 * cos (2 * M_PI * y) + 2 * sin (4 * M_PI * y)) * sin (2 * M_PI * x));
+}
+
 double f1 (double t, double x, double y, double mu)
 {
     double d = (3. + 2 * cos (2 * M_PI * x)) * (3. + 2 * sin (2 * M_PI * y)) * exp (2 * t);
